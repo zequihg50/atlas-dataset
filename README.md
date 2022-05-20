@@ -11,11 +11,14 @@ import os
 import xarray
 
 dst = "CMIP6.csv"
-os.remove(dst)
+cols = ["model", "experiment", "region", "realm", "time", "tas", "pr"]
+with open(dst, "w") as f:
+    f.write(",".join(cols))
+    f.write("\n")
 
 ds = xarray.open_dataset("CMIP6.nc")
 for i in range(ds.dims["model"]):
     for j in range(ds.dims["region"]):
-        ds.isel(model=slice(i,i+1), region=slice(j,j+1)).to_dataframe().reset_index().to_csv(dst, header=False, index=None, mode="a")
+        ds.isel(model=slice(i,i+1), region=slice(j,j+1)).to_dataframe().reset_index()[cols].to_csv(dst, header=False, index=None, mode="a")
 ds.close()
 ```
