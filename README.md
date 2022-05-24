@@ -19,6 +19,7 @@ with open(dst, "w") as f:
 ds = xarray.open_dataset("CMIP6.nc")
 for i in range(ds.dims["model"]):
     for j in range(ds.dims["region"]):
-        ds.isel(model=slice(i,i+1), region=slice(j,j+1)).to_dataframe().reset_index()[cols].to_csv(dst, header=False, index=None, mode="a")
+        df = ds.isel(model=slice(i,i+1), region=slice(j,j+1)).to_dataframe().dropna(0).reset_index()
+        df[cols].to_csv(dst, header=False, index=None, mode="a")
 ds.close()
 ```

@@ -6,6 +6,7 @@ import netCDF4
 
 DATASET = "CMIP6.nc"
 FILL = 9999.
+VARIABLES = ("tas", "pr")
 MODELS = {
     'ACCESS-CM2': 0, 'ACCESS-ESM1-5': 1, 'AWI-CM-1-1-MR': 2, 'BCC-CSM2-MR': 3, 'CAMS-CSM1-0': 4, 'CanESM5': 5,
     'CESM2': 6, 'CESM2-WACCM': 7, 'CMCC-CM2-SR5': 8, 'CNRM-CM6-1': 9, 'CNRM-CM6-1-HR': 10, 'CNRM-ESM2-1': 11,
@@ -65,7 +66,7 @@ def setup_nc(name, timesteps):
     nc.variables["realm"][:] = np.array(list(REALMS.keys()), string_dtype)
     nc.variables["time"][:] = np.array(list(timesteps.keys()), string_dtype)
 
-    for v in ["tas", "pr"]:
+    for v in VARIABLES:
         nc.createVariable(
             v,
             "f4",
