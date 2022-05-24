@@ -23,3 +23,13 @@ for i in range(ds.dims["model"]):
         df[cols].to_csv(dst, header=False, index=None, mode="a")
 ds.close()
 ```
+
+Calculate means:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("CMIP6.csv")
+means = df.groupby(["model", "experiment", "region", "realm"]).mean()
+means.reset_index().to_csv("CMIP6-means.csv", index=None)
+```
